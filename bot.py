@@ -19,12 +19,13 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text=f"🔍 '{query}' ကို ရှာဖွေနေပါပြီ ခဏစောင့်ပါ...")
 
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'}],
-        'outtmpl': 'song.%(ext)s',
-        'quiet': True,
-    }
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'cookiefile': 'm.youtube.com_cookies.txt',  # ဒီလိုင်းလေးကို အသစ်ထည့်ပါ
+            'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'}],
+            'outtmpl': 'song.%(ext)s',
+            'quiet': True,
+        }
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
