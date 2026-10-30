@@ -11,6 +11,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# yt-dlp ကို အမြဲတမ်း အသစ်ဆုံးဗားရှင်းသို့ အပ်ဒိတ်လုပ်ရန်
+RUN pip install --no-cache-dir --upgrade yt-dlp
+
 COPY . .
 
 CMD ["python", "bot.py"]
