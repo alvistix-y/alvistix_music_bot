@@ -27,8 +27,12 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     ydl_opts = {
         'format': 'bestaudio/best',
-        'extractor_args': {'youtube': {'player_client': ['android', 'web']}},  # YouTube format အပြောင်းအလဲနှင့် Error ကျော်ရန်
-        'cookiefile': 'm.youtube.com_cookies.txt',  # YouTube Bot detection ကျော်ရန် cookies ဖိုင်ချိတ်ဆက်ခြင်း
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['ios', 'tv_embedded']  # YouTube ၏ Bot ကန့်သတ်ချက်ကို ကျော်လွှားရန်
+            }
+        },
+        'cookiefile': 'm.youtube.com_cookies.txt',  # Cookie ဖိုင်ချိတ်ဆက်ခြင်း
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -77,3 +81,4 @@ if __name__ == '__main__':
 
     print("Bot is running...")
     application.run_polling()
+    g
