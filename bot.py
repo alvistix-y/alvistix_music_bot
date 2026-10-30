@@ -26,7 +26,7 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=chat_id, text="🔍 သီချင်းကို ရှာဖွေနေပါပြီ၊ ခဏစောင့်ပါ...")
 
     ydl_opts = {
-        'format': 'bestaudio/best',
+        'format': 'bestaudio',  # YouTube format အပြောင်းအလဲအတွက် bestaudio သို့ ပြောင်းထားသည်
         'cookiefile': 'm.youtube.com_cookies.txt',  # YouTube Bot detection ကျော်ရန် cookies ဖိုင်ချိတ်ဆက်ခြင်း
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
