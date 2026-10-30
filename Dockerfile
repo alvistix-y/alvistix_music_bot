@@ -1,18 +1,12 @@
 FROM FROM python:3.10-slim
 
-# Install ffmpeg and nodejs (yt-dlp JS runtime လိုအပ်ချက်အတွက်)
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    nodejs \
-    && rm -rf /var/lib/apt/lists/*
+# Install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# yt-dlp ကို အမြဲတမ်း အသစ်ဆုံးဗားရှင်းသို့ အပ်ဒိတ်လုပ်ရန်
-RUN pip install --no-cache-dir --upgrade yt-dlp
 
 COPY . .
 
