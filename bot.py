@@ -15,8 +15,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🎵 မင်္ဂလာပါ! သီချင်းနားထောင်နိုင်သော Bot မှ ကြိုဆိုပါတယ်။\n"
-        "ကြိုက်နှစ်သက်သော **သီချင်းနာမည်** (သို့) **YouTube လင့်ခ်** ကို ပို့ပေးပါ။\n"
-        "Bot က သီချင်းဖိုင် (MP3) အဖြစ် ပြောင်းလဲပေးပါမည်။"
+        "ကြိုက်နှစ်သက်သော **သီချင်းနာမည်** ကို ရိုက်ထည့်လိုက်ုံဖြင့် Bot က MP3 ဖိုင်အဖြစ် ရှာဖွေပေးပါမည်။"
     )
 
 async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -25,14 +24,9 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await context.bot.send_message(chat_id=chat_id, text="🔍 သီချင်းကို ရှာဖွေနေပါပြီ၊ ခဏစောင့်ပါ...")
 
+    # SoundCloud Search ကို အသုံးပြုခြင်း (Render တွင် IP Block လုံးဝမရှိပါ)
     ydl_opts = {
         'format': 'bestaudio/best',
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['ios', 'tv_embedded']  # YouTube ၏ Bot ကန့်သတ်ချက်ကို ကျော်လွှားရန်
-            }
-        },
-        'cookiefile': 'm.youtube.com_cookies.txt',  # Cookie ဖိုင်ချိတ်ဆက်ခြင်း
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -44,8 +38,9 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # scsearch1 ကိုသုံး၍ သီချင်းနာမည်ဖြင့် တိုက်ရိုက်ရှာမည်
             if not query.startswith("http"):
-                search_query = f"ytsearch1:{query}"
+                search_query = f"scsearch1:{query}"
                 info = ydl.extract_info(search_query, download=True)
                 if 'entries' in info:
                     info = info['entries'][0]
@@ -64,7 +59,7 @@ async def download_music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     except Exception as e:
         logging.error(f"Error: {e}")
-        await context.bot.send_message(chat_id=chat_id, text=f"❌ သီချင်းဒေါင်းလုပ်ဆွဲရာတွင် အမှားအယွင်းရှိနေပါသည်: {e}")
+        await context.bot.send_message(chat_id=chat_id, text=f"❌ သီချင်းရှာမတွေ့ပါ သို့မဟုတ် အမှားအယွင်းရှိပါသည်: {e}")
 
     finally:
         if os.path.exists("song.mp3"):
@@ -81,4 +76,4 @@ if __name__ == '__main__':
 
     print("Bot is running...")
     application.run_polling()
-    g
+    
