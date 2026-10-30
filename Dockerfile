@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
-# Install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
+# Install ffmpeg and nodejs (yt-dlp အတွက် မရှိမဖြစ် လိုအပ်ပါသည်)
+RUN apt-get update && apt-get install -y ffmpeg nodejs
 
 WORKDIR /app
 
